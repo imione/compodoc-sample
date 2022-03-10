@@ -28,6 +28,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGE_READ_TOKEN }}
+
       - name: Build
         run: npx run compodoc
 
